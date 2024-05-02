@@ -20,19 +20,37 @@
 // }
 
 import { Request, Response } from "express";
+import { checkCredentialsService } from "../services/credentialsService";
+import { createUserService, getUsersService } from "../services/userService";
+import IUser from "../interfaces/IUser";
 
-export const getUsers = (req: Request, res: Response) => {
-    res.send("Listado de usuarios")
+export const getUsers = async (req: Request, res: Response) => {
+    const users: IUser[] = await getUsersService()
+    res.status(200).json(users)
 }
 
 export const getUserById = (req: Request, res: Response) => {
     res.send("Usuario con Id")
 }
 
-export const registerUser = (req: Request, res: Response) => {
-    res.send("Registro de usuario")
+export const registerUser = async (req: Request, res: Response) : Promise<void> => {
+    try {
+        const array = req.body
+        const user = array[0]
+        const credentials = array[1]
+        const newUser: IUser = await createUserService(user , credentials)
+        res.status(201).json(newUser)
+    } catch (error: any) {
+        res.status(400).json({error: error.message})
+    }
 }
 
-export const loginUser = (req: Request, res: Response) => {
-    res.send("Login de usuario")
+export const loginUser = async (req: Request, res: Response) => {
+    try {
+        const {username, password} = req.body
+        checkCredentialsService(username, password)
+        res.status(200).send("Login de usuario")
+    } catch (error) {
+        res.status(401).send("Credenciales incorrectas")
+    }
 }

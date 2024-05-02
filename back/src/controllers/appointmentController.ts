@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 
-export const getAllAppointments = (req: Request, res: Response) => {
+export const getAllAppointments = async (req: Request, res: Response) : Promise<void> => {
     res.send("Listado de Citas")
 }
 
-export const getAppointment = (req: Request, res: Response) => {
+export const getAppointment = async (req: Request, res: Response) : Promise<void> => {
     res.send("Cita específica")
 }
 
-export const scheduleAppointment = (req: Request, res: Response) => {
+export const scheduleAppointment = async (req: Request, res: Response) : Promise<void> => {
     res.send("Cita creada")
 }
 
-export const cancelAppointment = (req: Request, res: Response) => {
+export const cancelAppointment = async (req: Request, res: Response) : Promise<void> => {
     res.send("Cita cancelada")
 }

@@ -5,10 +5,10 @@ const appointmentRouter = Router();
 
 appointmentRouter.get("/" , getAllAppointments)
 
-appointmentRouter.get("/appointment" , getAppointment)
+appointmentRouter.get("/:id" , getAppointment)
 
-appointmentRouter.post("/appointment/schedule" , scheduleAppointment)
+appointmentRouter.post("/schedule" , scheduleAppointment)
 
-appointmentRouter.put("/appointment/cancel" , cancelAppointment)
+appointmentRouter.put("/cancel" , cancelAppointment)
 
 export default appointmentRouter
