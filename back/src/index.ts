@@ -1,15 +1,6 @@
-interface IPerson {
-    name: string;
-    age: number;
-}
+import server from "./server";
+import { PORT } from "./config/envs";
 
-const person: IPerson = {
-    name: "Tobias",
-    age: 21
-}
-
-function saludar(person: IPerson) {
-    console.log (`Hola ${person.name}`)
-}
-
-saludar(person);
+server.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
+})

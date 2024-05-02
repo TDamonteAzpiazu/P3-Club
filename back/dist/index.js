@@ -1,9 +1,10 @@
 "use strict";
-var person = {
-    name: "Tobias",
-    age: 21
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-function saludar(person) {
-    console.log("Hola ".concat(person.name));
-}
-saludar(person);
+Object.defineProperty(exports, "__esModule", { value: true });
+var server_1 = __importDefault(require("./server"));
+var envs_1 = require("./config/envs");
+server_1.default.listen(envs_1.PORT, function () {
+    console.log("Servidor corriendo en el puerto ".concat(envs_1.PORT));
+});
