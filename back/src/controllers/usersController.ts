@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { checkCredentialsService } from "../services/credentialsService";
 import { createUserService, getUserByIdService, getUsersService } from "../services/userService";
 import IUser from "../interfaces/IUser";
-import { log } from "console";
 
 export const getUsers = async (req: Request, res: Response) => {
     const users: IUser[] = await getUsersService()
@@ -21,8 +20,6 @@ export const registerUser = async (req: Request, res: Response) : Promise<void> 
         const {name, email, birthdate, nDni, username, password} = req.body
         const user = {name, email, birthdate, nDni}
         const credentials = {username, password}
-        console.log(user)
-        console.log(credentials)
         const newUser: IUser = await createUserService(user , credentials)
         res.status(201).json(newUser)
     } catch (error: any) {
