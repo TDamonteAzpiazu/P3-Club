@@ -1,43 +1,28 @@
-// import { Request, Response } from "express"
-// import { getUsersService, createUsersService, deleteUsersService } from "../services/usersService"
-// import IUser from "../interfaces/IUser"
-
-// export const getUsers = async (req: Request, res: Response) =>{
-//     const users: IUser[] = await getUsersService()
-//     res.status(200).json(users)
-// }
-
-// export const createUser = async (req: Request, res: Response) => {
-//     const {name, email, active} = req.body
-//     const newUser: IUser = await createUsersService({name, email, active})
-//     res.status(201).json(newUser)
-// }
-
-// export const deleteUser = async (req: Request, res: Response) =>{
-//     const {id} = req.body
-//     await deleteUsersService(id)
-//     res.status(200).json({message:"Eliminado correctamente"})
-// }
-
 import { Request, Response } from "express";
 import { checkCredentialsService } from "../services/credentialsService";
-import { createUserService, getUsersService } from "../services/userService";
+import { createUserService, getUserByIdService, getUsersService } from "../services/userService";
 import IUser from "../interfaces/IUser";
+import { log } from "console";
 
 export const getUsers = async (req: Request, res: Response) => {
     const users: IUser[] = await getUsersService()
     res.status(200).json(users)
 }
 
-export const getUserById = (req: Request, res: Response) => {
-    res.send("Usuario con Id")
+export const getUserById = async (req: Request, res: Response) => {
+    const {id} = req.params
+    const idNum =parseInt(id)
+    const userById = await getUserByIdService(idNum)
+    res.status(200).json(userById)
 }
 
 export const registerUser = async (req: Request, res: Response) : Promise<void> => {
     try {
-        const array = req.body
-        const user = array[0]
-        const credentials = array[1]
+        const {name, email, birthdate, nDni, username, password} = req.body
+        const user = {name, email, birthdate, nDni}
+        const credentials = {username, password}
+        console.log(user)
+        console.log(credentials)
         const newUser: IUser = await createUserService(user , credentials)
         res.status(201).json(newUser)
     } catch (error: any) {
@@ -48,9 +33,9 @@ export const registerUser = async (req: Request, res: Response) : Promise<void> 
 export const loginUser = async (req: Request, res: Response) => {
     try {
         const {username, password} = req.body
-        checkCredentialsService(username, password)
+        await checkCredentialsService(username, password)
         res.status(200).send("Login de usuario")
-    } catch (error) {
-        res.status(401).send("Credenciales incorrectas")
+    } catch (error: any) {
+        res.status(401).json({error: error.message})
     }
 }
