@@ -1,6 +1,6 @@
 import appointmentDto from "../dto/appointmentDto";
 import IAppointment from "../interfaces/IAppointment";
-
+import users from "./userService";
 
 let appointments : IAppointment[] = []
 let appointmentId = 1
@@ -23,9 +23,10 @@ export const createAppointmentService = (appointment: appointmentDto) : void => 
         userId,
         status
     }
-    if (!newAppointment.userId) {
-        throw new Error("Appointment without userId")
-    }
+
+    const userExists = users.findIndex((user) => user.id === userId)
+    if (userExists == -1) throw new Error("Appointment without userId")
+
     appointmentId++;
     appointments.push(newAppointment)
 }

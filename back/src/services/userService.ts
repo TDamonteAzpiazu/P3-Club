@@ -1,7 +1,8 @@
 import IUser from "../interfaces/IUser";
 import UserDto from "../dto/userDto";
 import credentialsDto from "../dto/credentialsDto";
-import { createCredentialsService } from "./credentialsService";
+import credentialsArray, { createCredentialsService } from "./credentialsService";
+import ICredentials from "../interfaces/ICredentials";
 
 let users: IUser[] = [];
 
@@ -18,8 +19,19 @@ export const getUserByIdService = async (id: number): Promise<IUser | undefined>
 export const createUserService = async (user: UserDto , credentials: credentialsDto): Promise<IUser> =>{
 
     const {username, password} = credentials
-    const credentialsId = await createCredentialsService(username, password);
     const {name, email, birthdate, nDni} = user
+
+    const usernameUsed = credentialsArray.find((cred: ICredentials) => cred.username === username)
+    if(usernameUsed) throw new Error("Username already in use")
+
+    const nDniUsed = users.find((user: IUser) => user.nDni === nDni)
+    if(nDniUsed) throw new Error("DNI already in use")
+
+    const emailUsed = users.find((user: IUser) => user.email === email)
+    if(emailUsed) throw new Error("Email already in use")
+    
+    const credentialsId = await createCredentialsService(username, password);
+
     const newUser: IUser = {
         id,
         name,
@@ -35,3 +47,4 @@ export const createUserService = async (user: UserDto , credentials: credentials
 
 }
 
+export default users

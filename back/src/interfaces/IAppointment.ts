@@ -1,8 +1,10 @@
+import IUser from "./IUser";
+
 interface IAppointment {
     id: number;
     date: Date;
     time: Date;
-    userId: number;
+    userId: IUser["id"];
     status: "active" | "cancelled"
 }
 
