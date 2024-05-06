@@ -2,9 +2,10 @@ import { Request, Response } from "express";
 import { checkCredentialsService } from "../services/credentialsService";
 import { createUserService, getUserByIdService, getUsersService } from "../services/userService";
 import IUser from "../interfaces/IUser";
+import { User } from "../entities/User";
 
 export const getUsers = async (req: Request, res: Response) => {
-    const users: IUser[] = await getUsersService()
+    const users: User[] = await getUsersService()
     res.status(200).json(users)
 }
 
@@ -20,7 +21,7 @@ export const registerUser = async (req: Request, res: Response) : Promise<void> 
         const {name, email, birthdate, nDni, username, password} = req.body
         const user = {name, email, birthdate, nDni}
         const credentials = {username, password}
-        const newUser: IUser = await createUserService(user , credentials)
+        const newUser: User = await createUserService(user , credentials)
         res.status(201).json(newUser)
     } catch (error: any) {
         res.status(400).json({error: error.message})

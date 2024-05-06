@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { changeStatusAppointmentService, createAppointmentService, getAllAppointmentsService, getAppointmentByIdService } from "../services/appointmentService";
 import IAppointment from "../interfaces/IAppointment";
+import { Appointment } from "../entities/Appointment";
 
 export const getAllAppointments = async (req: Request, res: Response) : Promise<void> => {
     const appointments = await getAllAppointmentsService()
@@ -26,7 +27,7 @@ export const scheduleAppointment = async (req: Request, res: Response) : Promise
 export const cancelAppointment = async (req: Request, res: Response) : Promise<void> => {
     try {
         const appointmentId = parseInt(req.body.id)
-        const cancelledAppointment: IAppointment = await changeStatusAppointmentService(appointmentId)
+        const cancelledAppointment: Appointment = await changeStatusAppointmentService(appointmentId)
         res.status(200).json(cancelledAppointment)
     } catch (error: any) {
         res.status(400).json({error: error.message});

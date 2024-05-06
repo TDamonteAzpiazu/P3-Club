@@ -1,28 +1,19 @@
-import ICredentials from "../interfaces/ICredentials";
-import credentialsDto from "../dto/credentialsDto";
-
-let credentialsArray: ICredentials[] = []
-
-let id: number = 1
+import { CredentialsModel } from "../config/data-source";
+import { Credentials } from "../entities/Credentials";
 
 export const createCredentialsService = async (username: string, password: string): Promise<number> => {
-    const newCredentials: ICredentials = {
-        id,
-        username,
-        password
-    }
-    credentialsArray.push(newCredentials)
-    id++
+
+    const newCredentials = await CredentialsModel.create({ username, password })
+    await CredentialsModel.save(newCredentials)
     return newCredentials.id
 }
 
 export const checkCredentialsService = async (username: string, password: string): Promise<number> => {
-    const foundCredentials: ICredentials | undefined = credentialsArray.find(cred => cred.username === username && cred.password === password);
+
+    const foundCredentials : Credentials | null = await CredentialsModel.findOne({where: { username: username, password: password }})
     if (foundCredentials) {
         return foundCredentials.id
     } else {
         throw new Error("Credenciales incorrectas")
     }
 }
-
-export default credentialsArray

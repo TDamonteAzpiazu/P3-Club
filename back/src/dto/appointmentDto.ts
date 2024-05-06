@@ -1,6 +1,6 @@
 interface appointmentDto {
     date: Date
-    time: Date
+    time: string
     userId: number
     status: "active" | "cancelled"
 }

@@ -10,7 +10,7 @@ export class Appointment {
     date: Date;
 
     @Column()
-    time: Date;
+    time: string;
 
     @Column()
     userId: number;

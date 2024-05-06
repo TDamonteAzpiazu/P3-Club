@@ -1,41 +1,36 @@
+import { AppointmentModel, UserModel } from "../config/data-source";
 import appointmentDto from "../dto/appointmentDto";
+import { Appointment } from "../entities/Appointment";
 import IAppointment from "../interfaces/IAppointment";
-import users from "./userService";
+// import users from "./userService";
 
-let appointments : IAppointment[] = []
-let appointmentId = 1
+// let appointments : IAppointment[] = []
+// let appointmentId = 1
 
-export const getAllAppointmentsService = () : IAppointment[] => {
+export const getAllAppointmentsService = async () : Promise<Appointment[]> => {
+    const appointments : Appointment[] = await AppointmentModel.find()
     return appointments
 }
 
-export const getAppointmentByIdService = (id: number) : IAppointment | undefined => {
-    const foundAppointment = appointments.find((appointment: IAppointment) => appointment.id === id)
+export const getAppointmentByIdService = async (id: number) : Promise<Appointment | null> => {
+    const foundAppointment : Appointment | null = await AppointmentModel.findOne({where: {id: id}})
     return foundAppointment
 }
 
-export const createAppointmentService = (appointment: appointmentDto) : void => {
+export const createAppointmentService = async (appointment: appointmentDto)  => {
     const {date, time, userId, status} = appointment
-    const newAppointment = {
-        id: appointmentId,
-        date,
-        time,
-        userId,
-        status
-    }
+    
+    const userExists = await UserModel.findOne({where: {id: userId}})
+    if (!userExists) throw new Error("Appointment without userId")
 
-    const userExists = users.findIndex((user) => user.id === userId)
-    if (userExists == -1) throw new Error("Appointment without userId")
-
-    appointmentId++;
-    appointments.push(newAppointment)
+    const newAppointment = await AppointmentModel.create({date, time, userId, status})
+    await AppointmentModel.save(newAppointment)
 }
 
-export const changeStatusAppointmentService = (id: number) : IAppointment => {
-    const appointmentToChange = appointments.find((appointment: IAppointment) => appointment.id === id)
-    if (!appointmentToChange) {
-        throw new Error("Appointment not found")
-    }
+export const changeStatusAppointmentService = async (id: number) : Promise<Appointment> => {
+    const appointmentToChange = await getAppointmentByIdService(id)
+    if (!appointmentToChange) throw new Error("Appointment not found")
     appointmentToChange.status = "cancelled"
+    await AppointmentModel.save(appointmentToChange)
     return appointmentToChange
 }
