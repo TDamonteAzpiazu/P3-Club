@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { checkCredentialsService } from "../services/credentialsService";
 import { createUserService, getUserByIdService, getUsersService } from "../services/userService";
-import IUser from "../interfaces/IUser";
 import { User } from "../entities/User";
 
 export const getUsers = async (req: Request, res: Response) => {
@@ -12,8 +11,12 @@ export const getUsers = async (req: Request, res: Response) => {
 export const getUserById = async (req: Request, res: Response) => {
     const {id} = req.params
     const idNum =parseInt(id)
-    const userById = await getUserByIdService(idNum)
-    res.status(200).json(userById)
+    try {
+        const userById = await getUserByIdService(idNum)
+        res.status(200).json(userById)
+    } catch (error: any) {
+        res.status(400).json({error: error.message})
+    }
 }
 
 export const registerUser = async (req: Request, res: Response) : Promise<void> => {
@@ -34,6 +37,6 @@ export const loginUser = async (req: Request, res: Response) => {
         await checkCredentialsService(username, password)
         res.status(200).send("Login de usuario")
     } catch (error: any) {
-        res.status(401).json({error: error.message})
+        res.status(400).json({error: error.message})
     }
 }

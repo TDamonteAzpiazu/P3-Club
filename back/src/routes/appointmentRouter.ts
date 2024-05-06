@@ -9,6 +9,6 @@ appointmentRouter.get("/:id" , getAppointment)
 
 appointmentRouter.post("/schedule" , scheduleAppointment)
 
-appointmentRouter.put("/cancel" , cancelAppointment)
+appointmentRouter.put("/cancel/:id" , cancelAppointment)
 
 export default appointmentRouter
