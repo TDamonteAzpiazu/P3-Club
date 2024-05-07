@@ -34,8 +34,8 @@ export const registerUser = async (req: Request, res: Response) : Promise<void> 
 export const loginUser = async (req: Request, res: Response) => {
     try {
         const {username, password} = req.body
-        await checkCredentialsService(username, password)
-        res.status(200).send("Login de usuario")
+        const userLogged = await checkCredentialsService(username, password)
+        res.status(200).json(userLogged)
     } catch (error: any) {
         res.status(400).json({error: error.message})
     }

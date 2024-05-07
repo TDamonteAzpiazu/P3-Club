@@ -17,7 +17,7 @@ export const getUserByIdService = async (id: number): Promise<User | null> =>{
     return userById
 }
 
-export const createUserService = async (user: UserDto , credentials: credentialsDto)=>{
+export const createUserService = async (user: UserDto , credentials: credentialsDto): Promise<User>=>{
 
     const {username, password} = credentials
     const {name, email, birthdate, nDni} = user
@@ -32,15 +32,13 @@ export const createUserService = async (user: UserDto , credentials: credentials
     if (usernameInUse) throw new Error("El nombre de usuario ya está en uso.")
 
     const credentialsId = await createCredentialsService(username, password);
-    const newCredentials = await CredentialsModel.findOne({where: {id: credentialsId}})
-    if(!newCredentials) throw new Error("Credenciales incorrectas.")
 
-    const newUser: User = await UserModel.create({
+    const newUser: User = UserModel.create({
         name,
         email,
         birthdate,
         nDni,
-        credentialsId: newCredentials
+        credentialsId: {id: credentialsId}
     });
 
     await UserModel.save(newUser)
