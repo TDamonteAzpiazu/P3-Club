@@ -9,6 +9,6 @@ export class Credentials {
     @Column()
     username: string;
 
-    @Column()
+    @Column({ select: false })
     password: string;
 }

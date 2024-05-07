@@ -23,7 +23,7 @@ export const getAppointment = async (req: Request, res: Response) : Promise<void
 export const scheduleAppointment = async (req: Request, res: Response) : Promise<void> => {
     try {
         const {date, time, userId} = req.body
-        await createAppointmentService({date, time, userId})
+        await createAppointmentService({date, time}, userId)
         res.status(201).send("El turno fue creado exitosamente.")
     } catch (error: any) {
         res.status(400).json({error: error.message});

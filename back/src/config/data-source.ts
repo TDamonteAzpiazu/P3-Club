@@ -2,14 +2,15 @@ import { DataSource } from "typeorm";
 import { Credentials } from "../entities/Credentials";
 import { User } from "../entities/User";
 import { Appointment } from "../entities/Appointment";
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT,  DB_USERNAME } from "./envs";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
-    port: 5432,
-    username: "postgres",
-    password: "@tobodamonte2003",
-    database: "pm3",
+    host: DB_HOST,
+    port: DB_PORT,
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
+    database: DB_NAME,
     // dropSchema: true,
     synchronize: true,
     logging: ["error"],
@@ -18,6 +19,6 @@ export const AppDataSource = new DataSource({
     subscribers: [],
 })
 
-export const CredentialsModel = AppDataSource.getRepository(Credentials)
-export const UserModel = AppDataSource.getRepository(User)
-export const AppointmentModel = AppDataSource.getRepository(Appointment)
+export const CredentialsRepository = AppDataSource.getRepository(Credentials)
+export const UserRepository = AppDataSource.getRepository(User)
+export const AppointmentRepository = AppDataSource.getRepository(Appointment)
