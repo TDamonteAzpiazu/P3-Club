@@ -20,7 +20,7 @@ export const createAppointmentService = async (appointment: appointmentDto, user
     const userExists = await UserRepository.findOne({where: {id: userId}})
     if (!userExists) throw new Error("No se encontro el usuario con esa Id.")
 
-    const newAppointment = AppointmentRepository.create({date, time})
+    const newAppointment = AppointmentRepository.create({date, time, user: userExists})
     await AppointmentRepository.save(newAppointment)
 }
 
