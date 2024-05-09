@@ -7,8 +7,8 @@ import indexRouter from "../routes/indexRouter";
 const server = express();
 
 server.use(morgan("dev"))
-server.use(cors())
 server.use(express.json())
+server.use(cors())
 
 server.use(indexRouter)
 
