@@ -28,8 +28,8 @@ export const createUserService = async (user: UserDto , credentials: credentials
     const emailUsed = await UserRepository.findOne({where: {email: email}})
     if(emailUsed) throw new Error("El email ya está vinculado a otro usuario.")
     
-    const usernameInUse : Credentials | null = await CredentialsRepository.findOne({where: { username: username }})
-    if (usernameInUse) throw new Error("El nombre de usuario ya está en uso.")
+    const usernameUsed : Credentials | null = await CredentialsRepository.findOne({where: { username: username }})
+    if (usernameUsed) throw new Error("El nombre de usuario ya está en uso.")
 
     const credentialsId = await createCredentialsService(username, password);
 
