@@ -1,12 +1,14 @@
-const Turno = ({id, date, time, status}) => {
+import style from './Turno.module.css'
+
+const Turno = ({ date, time, type, status}) => {
     return(
-        <>
-            <h3>Turnos</h3>
-            <h4>Id: {id}</h4>
-            <h4>Fecha: {date}</h4>
-            <h4>Hora: {time}</h4>
-            <h4>Estado: {status}</h4>
-        </>
+        <div className={style.card}>
+            <h3>{date}</h3>
+            <h3>{time}</h3>
+            <h3>{type}</h3>
+            <h3>{status}</h3>
+            <button className={style.button}>Cancelar</button>
+        </div>
     ) 
 }
 

@@ -1,6 +1,6 @@
 import { AppointmentRepository, UserRepository } from "../config/data-source";
 import appointmentDto from "../dto/appointmentDto";
-import { Appointment } from "../entities/Appointment";
+import AppointmentType, { Appointment } from "../entities/Appointment";
 
 export const getAllAppointmentsService = async () : Promise<Appointment[]> => {
     const appointments : Appointment[] = await AppointmentRepository.find()
@@ -15,12 +15,14 @@ export const getAppointmentByIdService = async (id: number) : Promise<Appointmen
 }
 
 export const createAppointmentService = async (appointment: appointmentDto, userId: number)  => {
-    const {date, time} = appointment
+    const {date, time, type} = appointment
     
+    if(!(type in AppointmentType)) throw new Error("El tipo de reserva no existe.")
+
     const userExists = await UserRepository.findOne({where: {id: userId}})
     if (!userExists) throw new Error("No se encontro el usuario con esa Id.")
 
-    const newAppointment = AppointmentRepository.create({date, time, user: userExists})
+    const newAppointment = AppointmentRepository.create({date, time, type, user: userExists})
     await AppointmentRepository.save(newAppointment)
 }
 
