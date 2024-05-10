@@ -37,37 +37,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkCredentialsService = exports.createCredentialsService = void 0;
-var credentials = [{
-        id: 0,
-        username: "tobiasda",
-        password: "1234"
-    }];
-var id = 1;
+var data_source_1 = require("../config/data-source");
 var createCredentialsService = function (username, password) { return __awaiter(void 0, void 0, void 0, function () {
     var newCredentials;
     return __generator(this, function (_a) {
-        newCredentials = {
-            id: id,
-            username: username,
-            password: password
-        };
-        credentials.push(newCredentials);
-        id++;
-        return [2, newCredentials.id];
+        switch (_a.label) {
+            case 0:
+                newCredentials = data_source_1.CredentialsRepository.create({ username: username, password: password });
+                return [4, data_source_1.CredentialsRepository.save(newCredentials)];
+            case 1:
+                _a.sent();
+                return [2, newCredentials.id];
+        }
     });
 }); };
 exports.createCredentialsService = createCredentialsService;
 var checkCredentialsService = function (username, password) { return __awaiter(void 0, void 0, void 0, function () {
-    var foundCredentials;
+    var foundCredentials, user;
     return __generator(this, function (_a) {
-        foundCredentials = credentials.find(function (cred) { return cred.username === username && cred.password === password; });
-        if (foundCredentials) {
-            return [2, foundCredentials.id];
+        switch (_a.label) {
+            case 0: return [4, data_source_1.CredentialsRepository.findOne({ where: { username: username, password: password } })];
+            case 1:
+                foundCredentials = _a.sent();
+                if (!!foundCredentials) return [3, 2];
+                throw new Error("Credenciales incorrectas");
+            case 2: return [4, data_source_1.UserRepository.findOne({ where: { id: foundCredentials.id } })];
+            case 3:
+                user = _a.sent();
+                return [2, user];
         }
-        else {
-            return [2, null];
-        }
-        return [2];
     });
 }); };
 exports.checkCredentialsService = checkCredentialsService;

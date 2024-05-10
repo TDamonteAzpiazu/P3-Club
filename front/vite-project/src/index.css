@@ -25,7 +25,7 @@ a:hover {
 body {
   margin: 0;
   background-image: url(https://i.pinimg.com/originals/c9/97/2a/c9972a62afaa539a1ef4235a52b29e2e.jpg);
-  background-size: cover;
+  background-size:contain;
   background-repeat: repeat;
   overflow-x: hidden;
   /* background-color: darkgrey; */

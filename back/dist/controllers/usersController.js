@@ -39,31 +39,60 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = exports.registerUser = exports.getUserById = exports.getUsers = void 0;
 var credentialsService_1 = require("../services/credentialsService");
 var userService_1 = require("../services/userService");
-var getUsers = function (req, res) {
-    res.send("Listado de usuarios");
-};
+var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var users;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4, (0, userService_1.getUsersService)()];
+            case 1:
+                users = _a.sent();
+                res.status(200).json(users);
+                return [2];
+        }
+    });
+}); };
 exports.getUsers = getUsers;
-var getUserById = function (req, res) {
-    res.send("Usuario con Id");
-};
-exports.getUserById = getUserById;
-var registerUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var array, user, credentials, newUser, error_1;
+var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, idNum, userById, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                array = req.body;
-                user = array[0];
-                credentials = array[1];
+                id = req.params.id;
+                idNum = parseInt(id);
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4, (0, userService_1.getUserByIdService)(idNum)];
+            case 2:
+                userById = _a.sent();
+                res.status(200).json(userById);
+                return [3, 4];
+            case 3:
+                error_1 = _a.sent();
+                res.status(400).json({ error: error_1.message });
+                return [3, 4];
+            case 4: return [2];
+        }
+    });
+}); };
+exports.getUserById = getUserById;
+var registerUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, name, email, birthdate, nDni, username, password, user, credentials, newUser, error_2;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, name = _a.name, email = _a.email, birthdate = _a.birthdate, nDni = _a.nDni, username = _a.username, password = _a.password;
+                user = { name: name, email: email, birthdate: birthdate, nDni: nDni };
+                credentials = { username: username, password: password };
                 return [4, (0, userService_1.createUserService)(user, credentials)];
             case 1:
-                newUser = _a.sent();
+                newUser = _b.sent();
                 res.status(201).json(newUser);
                 return [3, 3];
             case 2:
-                error_1 = _a.sent();
-                res.status(400).send("Error al registrar usuario");
+                error_2 = _b.sent();
+                res.status(400).json({ error: error_2.message });
                 return [3, 3];
             case 3: return [2];
         }
@@ -71,17 +100,23 @@ var registerUser = function (req, res) { return __awaiter(void 0, void 0, void 0
 }); };
 exports.registerUser = registerUser;
 var loginUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, username, password;
+    var _a, username, password, userLogged, error_3;
     return __generator(this, function (_b) {
-        try {
-            _a = req.body, username = _a.username, password = _a.password;
-            (0, credentialsService_1.checkCredentialsService)(username, password);
-            res.status(200).send("Login de usuario");
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, username = _a.username, password = _a.password;
+                return [4, (0, credentialsService_1.checkCredentialsService)(username, password)];
+            case 1:
+                userLogged = _b.sent();
+                res.status(200).json(userLogged);
+                return [3, 3];
+            case 2:
+                error_3 = _b.sent();
+                res.status(400).json({ error: error_3.message });
+                return [3, 3];
+            case 3: return [2];
         }
-        catch (error) {
-            res.status(401).send("Credenciales incorrectas");
-        }
-        return [2];
     });
 }); };
 exports.loginUser = loginUser;

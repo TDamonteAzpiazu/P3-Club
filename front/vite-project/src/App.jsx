@@ -11,8 +11,8 @@ function App() {
     <NavBar />
     <div className={styles.container}>
       {/* <h1 className={styles.prueba}>Este es el componente principal de la App</h1> */}
-      {/* <Home /> */}
-      <MisTurnos />
+      <Home />
+      {/* <MisTurnos /> */}
     </div>
     <Footer />
   </div>

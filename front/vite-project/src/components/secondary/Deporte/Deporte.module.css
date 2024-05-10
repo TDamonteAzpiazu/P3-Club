@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 0.15rem solid rgb(50, 100, 50);
+    border-radius: 1rem;
+    padding: 0 1rem;
+    width: 25%;
+    margin-bottom: 2rem;
+    transition: 0.5s;
+}
+
+.container:hover {
+    background-color: rgb(102, 156, 76);
+}
+
+.img {
+    width: 90%;
+    height: 50%;
+}
+
+.title {
+    font-size: 2.5rem;
+}
+
+.description {
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+}

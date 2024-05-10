@@ -35,73 +35,78 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUserService = exports.getUserByIdService = exports.getUsersService = void 0;
+exports.changeStatusAppointmentService = exports.createAppointmentService = exports.getAppointmentByIdService = exports.getAllAppointmentsService = void 0;
 var data_source_1 = require("../config/data-source");
-var credentialsService_1 = require("./credentialsService");
-var getUsersService = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var users;
+var Appointment_1 = __importDefault(require("../entities/Appointment"));
+var getAllAppointmentsService = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var appointments;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, data_source_1.UserRepository.find({ relations: ["credentials", "appointments"] })];
+            case 0: return [4, data_source_1.AppointmentRepository.find()];
             case 1:
-                users = _a.sent();
-                return [2, users];
+                appointments = _a.sent();
+                if (appointments.length == 0)
+                    throw new Error("No hay turnos");
+                return [2, appointments];
         }
     });
 }); };
-exports.getUsersService = getUsersService;
-var getUserByIdService = function (id) { return __awaiter(void 0, void 0, void 0, function () {
-    var userById;
+exports.getAllAppointmentsService = getAllAppointmentsService;
+var getAppointmentByIdService = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var foundAppointment;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4, data_source_1.UserRepository.findOne({ where: { id: id }, relations: ["credentials", "appointments"] })];
+            case 0: return [4, data_source_1.AppointmentRepository.findOne({ where: { id: id } })];
             case 1:
-                userById = _a.sent();
-                if (!userById)
-                    throw new Error("No existe un usuario con esa Id");
-                return [2, userById];
+                foundAppointment = _a.sent();
+                if (!foundAppointment)
+                    throw new Error("No existe un turno con esa Id.");
+                return [2, foundAppointment];
         }
     });
 }); };
-exports.getUserByIdService = getUserByIdService;
-var createUserService = function (user, credentials) { return __awaiter(void 0, void 0, void 0, function () {
-    var username, password, name, email, birthdate, nDni, nDniUsed, emailUsed, usernameUsed, credentialsId, newUser;
+exports.getAppointmentByIdService = getAppointmentByIdService;
+var createAppointmentService = function (appointment, userId) { return __awaiter(void 0, void 0, void 0, function () {
+    var date, time, type, userExists, newAppointment;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                username = credentials.username, password = credentials.password;
-                name = user.name, email = user.email, birthdate = user.birthdate, nDni = user.nDni;
-                return [4, data_source_1.UserRepository.findOne({ where: { nDni: nDni } })];
+                date = appointment.date, time = appointment.time, type = appointment.type;
+                if (!(type in Appointment_1.default))
+                    throw new Error("El tipo de reserva no existe.");
+                return [4, data_source_1.UserRepository.findOne({ where: { id: userId } })];
             case 1:
-                nDniUsed = _a.sent();
-                if (nDniUsed)
-                    throw new Error("El DNI ya está vinculado a otro usuario.");
-                return [4, data_source_1.UserRepository.findOne({ where: { email: email } })];
+                userExists = _a.sent();
+                if (!userExists)
+                    throw new Error("No se encontro el usuario con esa Id.");
+                newAppointment = data_source_1.AppointmentRepository.create({ date: date, time: time, type: type, user: userExists });
+                return [4, data_source_1.AppointmentRepository.save(newAppointment)];
             case 2:
-                emailUsed = _a.sent();
-                if (emailUsed)
-                    throw new Error("El email ya está vinculado a otro usuario.");
-                return [4, data_source_1.CredentialsRepository.findOne({ where: { username: username } })];
-            case 3:
-                usernameUsed = _a.sent();
-                if (usernameUsed)
-                    throw new Error("El nombre de usuario ya está en uso.");
-                return [4, (0, credentialsService_1.createCredentialsService)(username, password)];
-            case 4:
-                credentialsId = _a.sent();
-                newUser = data_source_1.UserRepository.create({
-                    name: name,
-                    email: email,
-                    birthdate: birthdate,
-                    nDni: nDni,
-                    credentials: { id: credentialsId }
-                });
-                return [4, data_source_1.UserRepository.save(newUser)];
-            case 5:
                 _a.sent();
-                return [2, newUser];
+                return [2];
         }
     });
 }); };
-exports.createUserService = createUserService;
+exports.createAppointmentService = createAppointmentService;
+var changeStatusAppointmentService = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var appointmentToChange;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4, (0, exports.getAppointmentByIdService)(id)];
+            case 1:
+                appointmentToChange = _a.sent();
+                if (!appointmentToChange)
+                    throw new Error("Appointment not found");
+                appointmentToChange.status = "cancelled";
+                return [4, data_source_1.AppointmentRepository.save(appointmentToChange)];
+            case 2:
+                _a.sent();
+                return [2, appointmentToChange];
+        }
+    });
+}); };
+exports.changeStatusAppointmentService = changeStatusAppointmentService;
