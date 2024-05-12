@@ -15,8 +15,8 @@ function App() {
       {/* <h1 className={styles.prueba}>Este es el componente principal de la App</h1> */}
       {/* <Home /> */}
       {/* <MisTurnos /> */}
-      <Register />
-      {/* <Login /> */}
+      {/* <Register /> */}
+      <Login />
     </div>
     <Footer />
   </div>

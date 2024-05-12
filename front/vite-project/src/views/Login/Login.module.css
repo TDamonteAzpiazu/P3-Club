@@ -1,0 +1,65 @@
+.container {
+    background-color: rgb(102, 156, 76);
+    border: 2px solid rgb(50, 100, 50);
+    border-radius: 5rem;
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4rem;
+    width: fit-content;
+}
+
+.container h1 {
+    text-align: center;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    font-size: 1.5rem;
+    width: 20rem;
+}
+
+.campo label {
+    color: black
+}
+
+.campo input {
+    border: 2px solid rgb(50, 100, 50);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+}
+
+.button {
+    background-color: rgb(43, 83, 43); 
+    position: relative;
+    left: 3.5rem;
+    border: 2px solid rgb(50, 100, 50);
+    border-radius: 0.5rem;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+    width: 10rem;
+    margin: 1rem;
+    color: white;
+}
+
+.button:hover {
+    background-color: rgb(50, 100, 50);
+    color: white;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.campo p {
+    color: rgb(114, 14, 14);
+    font-size: 1.2rem;
+    flex-wrap: wrap;
+}
