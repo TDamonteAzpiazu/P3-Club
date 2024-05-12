@@ -44,3 +44,11 @@
 .button:disabled:hover {
     background-color: transparent;
 }
+
+.active {
+    color: green;
+}
+
+.cancelled {
+    color: rgb(205, 1, 1);
+}

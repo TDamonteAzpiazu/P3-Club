@@ -1,6 +1,7 @@
 import { useState } from "react"
 import validateInputs from "../../helpers/validate"
 import styles from './Register.module.css'
+import axios from 'axios'
 
 const Register = () => {
 
@@ -26,15 +27,26 @@ const Register = () => {
         const { name, value } = event.target
         const infoActual = {...userData,[name]: value}
         setUserData(infoActual)
-        //! Crear y llamar a la validación
+
         const mensajeError = validateInputs(infoActual)
         const erroresDelUsuario = {...errors, [name]: mensajeError[name]}
         setErrors(erroresDelUsuario)
     }
 
-    const handleOnSubmit = (event) => {
+    const handleOnSubmit = async (event) => {
         event.preventDefault()
-        alert(`Se ha creado un usuario con los siguientes datos: \nNombre: ${userData.name} \nEmail: ${userData.email} \nFecha de Nacimiento: ${userData.birthdate} \nNumero de Documento: ${userData.nDni} \nUsername: ${userData.username} \nPassword: ${userData.password}`)
+        const mensajeError = validateInputs(userData)
+        if(Object.keys(mensajeError).length > 0) {
+            setErrors(mensajeError)
+            alert ('Hay errores en el formulario')
+        } else {
+            userData.nDni = Number(userData.nDni)
+            await axios.post('http://localhost:3000/users/register', userData)
+            .then(() => {
+                alert(`Se ha creado un usuario con los siguientes datos: \nNombre: ${userData.name} \nEmail: ${userData.email} \nFecha de Nacimiento: ${userData.birthdate} \nNumero de Documento: ${userData.nDni} \nUsername: ${userData.username} \nPassword: ${userData.password}`)
+            })
+            .catch((error) => alert("Error al crear el usuario: " + error.response.data.error))
+        }
     }
 
     return(
@@ -100,7 +112,7 @@ const Register = () => {
                 />
                 {errors.password? <p>{errors.password}</p> : null}
             </div>
-            <button className={styles.button}>Registrar</button>
+            <button className={styles.button} disabled={Object.values(errors).some(error => error)}>Registrar</button>
         </form>
         </div>
     )

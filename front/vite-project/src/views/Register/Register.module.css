@@ -48,6 +48,11 @@
     color: white;
 }
 
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .campo p {
     color: rgb(114, 14, 14);
     font-size: 1.2rem;
