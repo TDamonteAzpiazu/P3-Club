@@ -5,6 +5,7 @@ import Register from "./views/Register/Register";
 import Login from "./views/Login/Login";
 import Footer from "./components/primary/footer/Footer";
 import styles from './App.module.css';
+import { Routes, Route } from "react-router-dom";
 
 
 function App() {
@@ -12,11 +13,12 @@ function App() {
   <div className={styles.grandContainer}>
     <NavBar />
     <div className={styles.container}>
-      {/* <h1 className={styles.prueba}>Este es el componente principal de la App</h1> */}
-      {/* <Home /> */}
-      {/* <MisTurnos /> */}
-      {/* <Register /> */}
-      <Login />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/myAppointments" element={<MisTurnos />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </div>
     <Footer />
   </div>

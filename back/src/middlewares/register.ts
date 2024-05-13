@@ -27,17 +27,6 @@ const registerDataCheck = (req: Request, res: Response, next: NextFunction) => {
         res.status(400).json({message: "La contraseña no es válida"})
     }
     
-    // if(
-    //     typeof name !== "string" ||
-    //     typeof email !== "string" ||
-    //     !(birthdate instanceof Date) ||
-    //     typeof nDni !== "number" ||
-    //     typeof username !== "string" ||
-    //     typeof password !== "string"
-    // ) {
-    //     res.status(400).json({message: "Los datos no son válidos"})
-    // }
-
     next()
 }
 
