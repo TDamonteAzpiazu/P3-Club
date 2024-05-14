@@ -12,6 +12,18 @@ const MisTurnos = () => {
         .then(response => setTurnos(response.data))
     }, [])
 
+    const cancelarTurno = (id) => {
+        axios.put(`http://localhost:3000/appointments/cancel/${id}`)
+        .then(response => {
+            setTurnos(prevTurnos => prevTurnos.map(turno => {
+                if (turno.id === id) {
+                    return {...turno, status: 'cancelled'}
+                }
+                return turno
+            }))
+        })
+    }
+
     return (
     <>
         <div className={styles.indice}>
@@ -24,7 +36,7 @@ const MisTurnos = () => {
         <div className={styles.container}>
             {turnos.map(turno => {
                 const fecha = turno.date.split('T')[0]
-                return <Turno key={turno.id} id={turno.id} date={fecha} time={turno.time} type={turno.type} status={turno.status} />
+                return <Turno key={turno.id} id={turno.id} date={fecha} time={turno.time} type={turno.type} status={turno.status} cancelarTurno={cancelarTurno}/>
             })}
         </div>
     </>
