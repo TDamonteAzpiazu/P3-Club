@@ -13,7 +13,7 @@ export const userSlice = createSlice({
             state.userData = action.payload
         },
         setUserAppointments: (state, action) => {
-            state.userAppointments = action.payload
+            state.userAppointments = Array.isArray(action.payload) ? action.payload : []
         }
     }
 })

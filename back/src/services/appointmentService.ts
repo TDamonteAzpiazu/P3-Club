@@ -14,16 +14,21 @@ export const getAppointmentByIdService = async (id: number) : Promise<Appointmen
     return foundAppointment
 }
 
-export const createAppointmentService = async (appointment: appointmentDto, userId: number)  => {
+export const createAppointmentService = async (appointment: appointmentDto, userId: number): Promise<Appointment> => {
     const {date, time, type} = appointment
+    try {
+        if(!(type in AppointmentType)) throw new Error("El tipo de reserva no existe.")
+
+            const userExists = await UserRepository.findOne({where: {id: userId}})
+            if (!userExists) throw new Error("No se encontro el usuario con esa Id.")
+        
+            const newAppointment = AppointmentRepository.create({date, time, type, user: userExists})
+            await AppointmentRepository.save(newAppointment)
+            return newAppointment
+    } catch (error) {
+        throw new Error(`Error al crear la cita: ${error}`)
+    }
     
-    if(!(type in AppointmentType)) throw new Error("El tipo de reserva no existe.")
-
-    const userExists = await UserRepository.findOne({where: {id: userId}})
-    if (!userExists) throw new Error("No se encontro el usuario con esa Id.")
-
-    const newAppointment = AppointmentRepository.create({date, time, type, user: userExists})
-    await AppointmentRepository.save(newAppointment)
 }
 
 export const changeStatusAppointmentService = async (id: number) : Promise<Appointment> => {
