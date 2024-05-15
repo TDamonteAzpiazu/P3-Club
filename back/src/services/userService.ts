@@ -17,7 +17,7 @@ export const getUserByIdService = async (id: number): Promise<User | null> =>{
     return userById
 }
 
-export const createUserService = async (user: UserDto , credentials: credentialsDto): Promise<User>=>{
+export const createUserService = async (user: UserDto , credentials: credentialsDto): Promise<User> =>{
 
     const {username, password} = credentials
     const {name, email, birthdate, nDni} = user

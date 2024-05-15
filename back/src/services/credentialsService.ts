@@ -9,12 +9,12 @@ export const createCredentialsService = async (username: string, password: strin
     return newCredentials.id
 }
 
-export const checkCredentialsService = async (username: string, password: string): Promise<User | null> => {
+export const checkCredentialsService = async (username: string, password: string): Promise<{login:boolean, user : User | null}> => {
     const foundCredentials : Credentials | null = await CredentialsRepository.findOne({where: { username, password }})
     if (!foundCredentials) {
         throw new Error("Credenciales incorrectas")
     } else {
         const user = await UserRepository.findOne({where: { id: foundCredentials.id }})
-        return user
+        return {login:true, user : user}
     }
 }

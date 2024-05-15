@@ -24,14 +24,14 @@ export const registerUser = async (req: Request, res: Response) : Promise<void> 
         const {name, email, birthdate, nDni, username, password} = req.body
         const user = {name, email, birthdate, nDni}
         const credentials = {username, password}
-        const newUser: User = await createUserService(user , credentials)
+        const newUser = await createUserService(user , credentials)
         res.status(201).json(newUser)
     } catch (error: any) {
         res.status(400).json({error: error.message})
     }
 }
 
-export const loginUser = async (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response) : Promise<void> => {
     try {
         const {username, password} = req.body
         const userLogged = await checkCredentialsService(username, password)

@@ -2,8 +2,10 @@ import { useState } from "react"
 import validateInputs from "../../helpers/validate"
 import styles from './Register.module.css'
 import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
 
 const Register = () => {
+    const navigate = useNavigate()
 
     const [userData, setUserData] = useState({
         name: '',
@@ -43,7 +45,7 @@ const Register = () => {
             userData.nDni = Number(userData.nDni)
             await axios.post('http://localhost:3000/users/register', userData)
             .then(() => {
-                alert(`Se ha creado un usuario con los siguientes datos: \nNombre: ${userData.name} \nEmail: ${userData.email} \nFecha de Nacimiento: ${userData.birthdate} \nNumero de Documento: ${userData.nDni} \nUsername: ${userData.username} \nPassword: ${userData.password}`)
+                navigate('/login')
             })
             .catch((error) => alert("Error al crear el usuario: " + error.response.data.error))
         }

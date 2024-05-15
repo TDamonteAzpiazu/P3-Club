@@ -2,8 +2,13 @@ import { useState } from "react"
 import validateCredentials from "../../helpers/credentials"
 import styles from './Login.module.css'
 import axios from 'axios'
+import {setUserData} from '../../redux/reducer'
+import {useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 const Login = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     
     const [userCred, setUserCred] = useState({
         username: '',
@@ -28,15 +33,17 @@ const Login = () => {
     const handleOnSubmit = async (event) => {
         event.preventDefault()
         const mensajeError = validateCredentials(userCred)
-        if(Object.keys(mensajeError).length > 0) {
+        if(Object.keys(mensajeError).length === 0) {
+            try {
+                const response = await axios.post('http://localhost:3000/users/login', userCred)
+                dispatch(setUserData(response.data))
+                navigate("/")
+            } catch (error) {
+                alert("Error al iniciar sesión: " + error.response.data.error)
+            }
+        } else {
             setErrors(mensajeError)
             alert ('Hay errores en el formulario')
-        } else {
-            await axios.post('http://localhost:3000/users/login', userCred)
-            .then(() => {
-                alert(`Se ha iniciado sesión correctamente`)
-            })
-            .catch((error) => alert("Error al iniciar sesión: " + error.response.data.error))
         }
     }
 
