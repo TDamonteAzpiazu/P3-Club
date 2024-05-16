@@ -61,11 +61,12 @@ const MisTurnos = () => {
             <h1>Cancelar</h1>
         </div>
         <div className={styles.container}>
-            {stateAppointments.length === 0 ? <h1>No tienes turnos</h1> : null}
+            {stateAppointments.length === 0 ? <h1 className={styles.sinTurnos}>No tienes turnos</h1> : null}
             {stateAppointments.map(turno => {
                 const fecha = turno.date.split('T')[0]
                 return <Turno key={turno.id} id={turno.id} date={fecha} time={turno.time} type={turno.type} status={turno.status} cancelarTurno={cancelarTurno}/>
             })}
+            {stateAppointments.length > 0 && <h3 className={styles.restriccion}>Recuerde que los turnos no pueden ser cancelados el día de la reserva.</h3>}
         </div>
     </>
     )

@@ -22,8 +22,17 @@ function validateInputs(datos) {
         errors.birthdate = 'La fecha de nacimiento es obligatoria'
     } else {
         const birthdateRegex = /^\d{4}-\d{2}-\d{2}$/
+        const fechaForm = new Date(datos.birthdate)
+        const today = new Date()
+        const minDate = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate())
         if (!birthdateRegex.test(datos.birthdate)) {
             errors.birthdate = 'La fecha de nacimiento no tiene un formato válido'
+        }
+        if(fechaForm > today) {
+            errors.birthdate = 'La fecha de nacimiento no puede ser posterior a la fecha actual'
+        }
+        if (fechaForm < minDate) {
+            errors.birthdate = 'La fecha de nacimiento no puede ser anterior a 100 años'
         }
     }
 

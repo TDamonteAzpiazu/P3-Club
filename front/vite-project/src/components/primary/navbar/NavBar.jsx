@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 const NavBar = () => {
     const user = useSelector((state) => state.user.userData.login);
-    console.log(user)
     return (
     <div className={styles.container}>
         <Link to='/'><button className={styles.item}>HOME</button></Link>

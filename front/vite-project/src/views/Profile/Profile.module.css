@@ -27,7 +27,7 @@
 }
 
 .infoRow h3 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin: 0 0.8rem 0 0;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .congrats {
-    color: rgb(0, 255, 0);
+    color: rgb(10, 85, 10);
     font-weight: bold;
     font-size: 1.75rem;
 }
