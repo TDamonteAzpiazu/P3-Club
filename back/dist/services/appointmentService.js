@@ -71,23 +71,30 @@ var getAppointmentByIdService = function (id) { return __awaiter(void 0, void 0,
 }); };
 exports.getAppointmentByIdService = getAppointmentByIdService;
 var createAppointmentService = function (appointment, userId) { return __awaiter(void 0, void 0, void 0, function () {
-    var date, time, type, userExists, newAppointment;
+    var date, time, type, userExists, newAppointment, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 date = appointment.date, time = appointment.time, type = appointment.type;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 4, , 5]);
                 if (!(type in Appointment_1.default))
                     throw new Error("El tipo de reserva no existe.");
                 return [4, data_source_1.UserRepository.findOne({ where: { id: userId } })];
-            case 1:
+            case 2:
                 userExists = _a.sent();
                 if (!userExists)
                     throw new Error("No se encontro el usuario con esa Id.");
                 newAppointment = data_source_1.AppointmentRepository.create({ date: date, time: time, type: type, user: userExists });
                 return [4, data_source_1.AppointmentRepository.save(newAppointment)];
-            case 2:
+            case 3:
                 _a.sent();
-                return [2];
+                return [2, newAppointment];
+            case 4:
+                error_1 = _a.sent();
+                throw new Error("Error al crear la cita: ".concat(error_1));
+            case 5: return [2];
         }
     });
 }); };

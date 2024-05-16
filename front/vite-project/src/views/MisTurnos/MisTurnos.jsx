@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import misTurnos from "../../helpers/MisTurnos"
 import Turno from "../../components/secondary/Turno/Turno"
 import styles from './MisTurnos.module.css'
 import axios from 'axios'
@@ -7,10 +6,12 @@ import FormTurno from "../../components/secondary/FormTurnos/FormTurno"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { setUserAppointments } from "../../redux/reducer"
+import { useNavigate } from "react-router-dom"
 
 const MisTurnos = () => {
     const dispatch = useDispatch()
-    const userId = useSelector(state => state.user.userData.user.id)
+    const navigate = useNavigate()
+    const userId = useSelector(state => state.user.userData?.user?.id)
     const stateAppointments = useSelector(state => state.user.userAppointments)
 
     const fetchUserAppointments = async () => {
@@ -30,9 +31,9 @@ const MisTurnos = () => {
         if(userId) {
             fetchUserAppointments()
         } else {
-            console.error("No hay id de usuario")
+            navigate('/')
         }
-    }, [userId, dispatch])
+    }, [userId, dispatch, navigate])
 
     const cancelarTurno = async (id) => {
         try {
@@ -41,6 +42,10 @@ const MisTurnos = () => {
         } catch (error) {
             console.error("Error al cancelar el turno:", error);
         }
+    }
+
+    if(!userId) {
+        return null
     }
 
     return (

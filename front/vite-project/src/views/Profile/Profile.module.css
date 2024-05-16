@@ -4,39 +4,52 @@
     border-radius: 5rem;
     width: 40%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 0 4rem;
     width: fit-content;
 }
 
 .container h1 {
-    text-align: center;
+    font-size: 2.5rem;
 }
 
-.campo {
+.container h2 {
+    margin-top: 0.5rem;
+    font-size: 2rem;
+}
+
+.infoRow {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.infoRow h3 {
+    font-size: 1.5rem;
+    margin: 0 0.8rem 0 0;
+}
+
+.infoRow p {
+    font-size: 1.5rem;
+    margin: 0 0.8rem 0 0;
+}
+
+.buttonContainer {
     display: flex;
     flex-direction: column;
-    margin: 1rem;
-    font-size: 1.5rem;
-    width: 20rem;
+    align-items: center;
 }
 
-.campo label {
-    color: black
-}
-
-.campo input,
-select {
-    border: 2px solid rgb(50, 100, 50);
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    padding: 0.5rem;
+.congrats {
+    color: rgb(0, 255, 0);
+    font-weight: bold;
+    font-size: 1.75rem;
 }
 
 .button {
-    background-color: rgb(43, 83, 43); 
-    position: relative;
-    left: 3.5rem;
+    background-color: rgb(43, 83, 43);
     border: 2px solid rgb(50, 100, 50);
     border-radius: 0.5rem;
     padding: 0.5em 1em;
@@ -51,16 +64,4 @@ select {
 .button:hover {
     background-color: rgb(50, 100, 50);
     color: white;
-}
-
-.button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.campo p {
-    color: rgb(114, 14, 14);
-    font-size: 1.2rem;
-    flex-wrap: wrap;
-    margin-bottom: 0;
 }

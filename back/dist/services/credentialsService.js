@@ -64,7 +64,7 @@ var checkCredentialsService = function (username, password) { return __awaiter(v
             case 2: return [4, data_source_1.UserRepository.findOne({ where: { id: foundCredentials.id } })];
             case 3:
                 user = _a.sent();
-                return [2, user];
+                return [2, { login: true, user: user }];
         }
     });
 }); };

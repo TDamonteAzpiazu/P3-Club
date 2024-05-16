@@ -1,0 +1,36 @@
+.container {
+    background-color: rgb(102, 156, 76);
+    border: 2px solid rgb(50, 100, 50);
+    border-radius: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 4rem;
+    max-width: 80%;
+    margin: 2rem auto;
+}
+
+.container h1 {
+    text-align: center;
+    color: white;
+}
+
+.container h2 {
+    color: white;
+}
+
+.container p {
+    color: black;
+}
+
+.container p:first-child {
+    margin-top: 1rem;
+}
+
+.container h2 {
+    font-size: 2rem;
+}
+
+.container p {
+    font-size: 1.5rem;
+}

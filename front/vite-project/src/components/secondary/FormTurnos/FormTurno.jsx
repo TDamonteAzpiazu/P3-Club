@@ -1,14 +1,10 @@
 import axios from "axios"
 import { useState } from "react"
 import { useSelector } from "react-redux"
-import { useDispatch } from "react-redux"
-import { setUserAppointments } from "../../../redux/reducer"
 import { validacionAppointment } from "../../../helpers/validacionAppointments"
-import {useNavigate} from 'react-router-dom'
+import styles from './FormTurno.module.css'
 
 const FormTurno = ({fetchUserAppointments}) => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const userId = useSelector(state => state.user.userData.user.id)
 
@@ -26,13 +22,17 @@ const FormTurno = ({fetchUserAppointments}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(appointment);
-        try {
-            const response = await axios.post('http://localhost:3000/appointments/schedule', appointment)
-            console.log(response.data)
-            fetchUserAppointments()
-        } catch (error) {
-            console.error("Error al crear el turno:" , error)
+        const mensajeError = validacionAppointment(appointment)
+        if(Object.keys(mensajeError).length > 0) {
+            setError(mensajeError)
+            alert ('Hay errores en el formulario')
+        } else {
+            try {
+                await axios.post('http://localhost:3000/appointments/schedule', appointment)
+                fetchUserAppointments()
+            } catch (error) {
+                console.error("Error al crear el turno:" , error)
+            }
         }
     }
 
@@ -46,10 +46,10 @@ const FormTurno = ({fetchUserAppointments}) => {
     }
 
     return (
-        <div>
+        <div className={styles.container}>
             <form onSubmit={handleSubmit}>
                 <h1>Crear nuevo turno</h1>
-                <div>
+                <div className={styles.campo}>
                     <label>Fecha</label>
                     <input type="date" 
                     name="date"
@@ -58,11 +58,12 @@ const FormTurno = ({fetchUserAppointments}) => {
                     />
                     {error.date? <p>{error.date}</p> : null}
                 </div>
-                <div>
+                <div className={styles.campo}>
                     <label>Horario</label>
                     <select name="time"
                     value={appointment.time}
                     onChange={handleChange}>
+                        <option value="Select">Select</option>
                         <option value="08:00">08:00</option>
                         <option value="09:00">09:00</option>
                         <option value="10:00">10:00</option>
@@ -79,11 +80,12 @@ const FormTurno = ({fetchUserAppointments}) => {
                     </select>
                     {error.time? <p>{error.time}</p> : null}
                 </div>
-                <div>
+                <div className={styles.campo}>
                     <label>Deporte</label>
                     <select name="type"
                     value={appointment.type}
                     onChange={handleChange}>
+                        <option value="Select">Select</option>
                         <option value="Futbol">Futbol</option>
                         <option value="Tenis">Tenis</option>
                         <option value="Padel">Padel</option>
@@ -95,7 +97,7 @@ const FormTurno = ({fetchUserAppointments}) => {
                     </select>
                     {error.type? <p>{error.type}</p> : null}
                 </div>
-                <button>Crear turno</button>
+                <button className={styles.button} disabled={Object.values(error).some(error => error)}>Crear turno</button>
             </form>
         </div>
     )

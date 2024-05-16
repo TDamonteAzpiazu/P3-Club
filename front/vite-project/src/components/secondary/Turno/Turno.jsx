@@ -1,4 +1,3 @@
-import axios from 'axios'
 import style from './Turno.module.css'
 
 const Turno = ({ id, date, time, type, status, cancelarTurno}) => {

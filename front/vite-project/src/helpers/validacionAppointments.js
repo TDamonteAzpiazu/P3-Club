@@ -1,16 +1,20 @@
 export const validacionAppointment = (appointment) => {
     const { date, time, type, userId } = appointment
+    const today = new Date().toISOString().split("T")[0]
 
     const errors = {}
     if (!date) {
         errors.date = "La fecha es requerida"
+    } else if (date < today){
+        errors.date = "La fecha no puede ser en el pasado"
     }
+    
 
-    if (!time) {
+    if (!time || time === "Select") {
         errors.time = "El horario es requerido"
     }
 
-    if (!type) {
+    if (!type || type === "Select") {
         errors.type = "El deporte es requerido"
     }
 

@@ -79,7 +79,7 @@ var getAppointment = function (req, res) { return __awaiter(void 0, void 0, void
 }); };
 exports.getAppointment = getAppointment;
 var scheduleAppointment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, date, time, type, userId, error_3;
+    var _a, date, time, type, userId, newAppointment, error_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -87,8 +87,8 @@ var scheduleAppointment = function (req, res) { return __awaiter(void 0, void 0,
                 _a = req.body, date = _a.date, time = _a.time, type = _a.type, userId = _a.userId;
                 return [4, (0, appointmentService_1.createAppointmentService)({ date: date, time: time, type: type }, userId)];
             case 1:
-                _b.sent();
-                res.status(201).send("El turno fue creado exitosamente.");
+                newAppointment = _b.sent();
+                res.status(201).json(newAppointment);
                 return [3, 3];
             case 2:
                 error_3 = _b.sent();
